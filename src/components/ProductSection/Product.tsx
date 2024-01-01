@@ -2,6 +2,7 @@ import React, { type ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../redux/slices/productSlice";
 import { type ProductData } from "../types/productTypes";
+import { useApi } from "../../hooks/useApi";
 
 interface ProductState {
   loading: boolean;
@@ -14,6 +15,11 @@ const Product = (): ReactElement => {
   const [data, setData] = useState<ProductData[] | null>([]);
   const dispatch = useDispatch();
   const productData = useSelector((state: ProductState) => state.product);
+  const { status, totalData, error, loading } = useApi(
+    "https://fakestoreapi.com/products"
+  );
+
+  console.log("======products======>", totalData, status, error, loading);
 
   useEffect(() => {
     dispatch(fetchProduct() as any);
